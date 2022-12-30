@@ -462,27 +462,6 @@ export default class RapiDoc extends LitElement {
     if (!this.schemaStyle || !'tree, table,'.includes(`${this.schemaStyle},`)) { this.schemaStyle = 'tree'; }
     if (!this.theme || !'light, dark,'.includes(`${this.theme},`)) {
       // this.theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-      const chakraTheme = localStorage.getItem('chakra-ui-color-mode');
-      console.log(chakraTheme); // eslint-disable-line no-console
-      const docEl = document.getElementById('thedoc');
-      docEl.setAttribute('show-header', '');
-      docEl.setAttribute('bg-color', '');
-      docEl.setAttribute('text-color', '');
-      docEl.setAttribute('nav-bg-color', '');
-      docEl.setAttribute('nav-text-color', '');
-      docEl.setAttribute('nav-hover-bg-color', '');
-      docEl.setAttribute('nav-hover-text-color', '');
-      docEl.setAttribute('nav-accent-color', '');
-      docEl.setAttribute('primary-color', '');
-      if (chakraTheme === 'dark') {
-        docEl.setAttribute('theme', 'dark');
-        docEl.setAttribute('bg-color', '#14191f');
-        docEl.setAttribute('text-color', '#aec2e0');
-      } else {
-        docEl.setAttribute('theme', 'light');
-        docEl.setAttribute('bg-color', '#ecf1f7');
-        docEl.setAttribute('text-color', '#133863');
-      }
 
       this.theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
       console.log(this.theme); // eslint-disable-line no-console

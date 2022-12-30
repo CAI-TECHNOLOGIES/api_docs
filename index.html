@@ -12,6 +12,27 @@
 <script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const docEl = document.getElementById('thedoc');
+    const chakraTheme = localStorage.getItem('chakra-ui-color-mode');
+    console.log(chakraTheme); // eslint-disable-line no-console
+
+    docEl.setAttribute('show-header', '');
+    docEl.setAttribute('bg-color', '');
+    docEl.setAttribute('text-color', '');
+    docEl.setAttribute('nav-bg-color', '');
+    docEl.setAttribute('nav-text-color', '');
+    docEl.setAttribute('nav-hover-bg-color', '');
+    docEl.setAttribute('nav-hover-text-color', '');
+    docEl.setAttribute('nav-accent-color', '');
+    docEl.setAttribute('primary-color', '');
+    if (chakraTheme === 'dark') {
+      docEl.setAttribute('theme', 'dark');
+      docEl.setAttribute('bg-color', '#14191f');
+      docEl.setAttribute('text-color', '#aec2e0');
+    } else {
+      docEl.setAttribute('theme', 'light');
+      docEl.setAttribute('bg-color', '#ecf1f7');
+      docEl.setAttribute('text-color', '#133863');
+    }
     docEl.addEventListener('before-try', (e) => {
       e.detail.request.headers.append('AAA-BBB', 'CCC DDDD');
     });
