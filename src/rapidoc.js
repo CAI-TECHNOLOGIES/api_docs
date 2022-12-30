@@ -654,7 +654,7 @@ export default class RapiDoc extends LitElement {
   onSpecFileChange() {
     console.log('ON SPEC FILE CHANGE'); // eslint-disable-line no-console
     // this.setAttribute('spec-file', this.shadowRoot.getElementById('spec-file').value);
-    const specFile = JSON.parse(localStorage.getItem('openapi3'));
+    const specFile = JSON.parse(JSON.stringify(localStorage.getItem('openapi3')));
     const blob = new Blob([specFile], {
       type: 'application/json',
     });
