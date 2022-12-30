@@ -34,9 +34,9 @@ RUN npm run build
 # production stage
 FROM nginx:stable-alpine as production-stage
 
-ENV PAGE_TITLE="RapiDoc"
+ENV PAGE_TITLE="API Interactive Docs"
 ENV PAGE_FAVICON="favicon.png"
-ENV SPEC_URL="http://petstore.swagger.io/v2/swagger.json"
+ENV SPEC_URL=""
 ENV PORT=80
 
 # copy files to the nginx folder
