@@ -461,7 +461,13 @@ export default class RapiDoc extends LitElement {
     if (!this.renderStyle || !'read, view, focused,'.includes(`${this.renderStyle},`)) { this.renderStyle = 'focused'; }
     if (!this.schemaStyle || !'tree, table,'.includes(`${this.schemaStyle},`)) { this.schemaStyle = 'tree'; }
     if (!this.theme || !'light, dark,'.includes(`${this.theme},`)) {
-      this.theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      // this.theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      const chakraTheme = localStorage.getItem('chakra-ui-color-mode');
+      if (chakraTheme != null) {
+        this.theme = chakraTheme === 'dark' ? 'night' : 'blue';
+      } else {
+        this.theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      }
     }
     if (!this.defaultSchemaTab || !'example, schema, model,'.includes(`${this.defaultSchemaTab},`)) {
       this.defaultSchemaTab = 'example';
