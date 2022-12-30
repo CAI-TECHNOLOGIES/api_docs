@@ -42,6 +42,7 @@ export default class RapiDoc extends LitElement {
     // to scroll to the proper element without being reverted by observer behavior
     this.isIntersectionObserverActive = false;
     this.intersectionObserver = new IntersectionObserver((entries) => { this.onIntersect(entries); }, intersectionObserverOptions);
+    this.onSpecFileChange();
   }
 
   static get properties() {
@@ -175,9 +176,9 @@ export default class RapiDoc extends LitElement {
         width:100%;
         overflow:hidden;
       }
-      .main-content { 
+      .main-content {
         margin:0;
-        padding: 0; 
+        padding: 0;
         display:block;
         flex:1;
         height:100%;
@@ -206,8 +207,8 @@ export default class RapiDoc extends LitElement {
       }
       .section-gap,
       .section-gap--focused-mode,
-      .section-gap--read-mode { 
-        padding: 0px 4px; 
+      .section-gap--read-mode {
+        padding: 0px 4px;
       }
       .section-tag-header {
         position:relative;
@@ -228,7 +229,7 @@ export default class RapiDoc extends LitElement {
         font-size:20px;
         top: calc(50% - 14px);
         color:var(--primary-color);
-        content: '⬆'; 
+        content: '⬆';
       }
 
       .collapsed .section-tag-header::after {
@@ -237,7 +238,7 @@ export default class RapiDoc extends LitElement {
         font-size:20px;
         top: calc(50% - 14px);
         color: var(--border-color);
-        content: '⬇'; 
+        content: '⬇';
       }
       .collapsed .section-tag-header:hover::after {
         color:var(--primary-color);
@@ -250,7 +251,7 @@ export default class RapiDoc extends LitElement {
       .logo {
         height:36px;
         width:36px;
-        margin-left:5px; 
+        margin-left:5px;
       }
       .only-large-screen-flex,
       .only-large-screen{
@@ -265,14 +266,14 @@ export default class RapiDoc extends LitElement {
         width:100%;
       }
       .header-title {
-        font-size:calc(var(--font-size-regular) + 8px); 
+        font-size:calc(var(--font-size-regular) + 8px);
         padding:0 8px;
       }
       input.header-input{
         background:var(--header-color-darker);
         color:var(--header-fg);
         border:1px solid var(--header-color-border);
-        flex:1; 
+        flex:1;
         padding-right:24px;
         border-radius:3px;
       }
@@ -280,7 +281,7 @@ export default class RapiDoc extends LitElement {
         opacity:0.4;
       }
       .loader {
-        margin: 16px auto 16px auto; 
+        margin: 16px auto 16px auto;
         border: 4px solid var(--bg3);
         border-radius: 50%;
         border-top: 4px solid var(--primary-color);
@@ -288,9 +289,9 @@ export default class RapiDoc extends LitElement {
         height: 36px;
         animation: spin 2s linear infinite;
       }
-      .expanded-endpoint-body { 
+      .expanded-endpoint-body {
         position: relative;
-        padding: 6px 0px; 
+        padding: 6px 0px;
       }
       .expanded-endpoint-body .tag-description {
         background: var(--code-bg);
@@ -303,7 +304,7 @@ export default class RapiDoc extends LitElement {
       .expanded-endpoint-body .tag-icon.expanded {
         transform: rotate(180deg);
       }
-      .divider { 
+      .divider {
         border-top: 2px solid var(--border-color);
         margin: 24px 0;
         width:100%;
@@ -354,7 +355,7 @@ export default class RapiDoc extends LitElement {
       .nav-method.as-colored-text.post { color:var(--nav-post-color); }
       .nav-method.as-colored-text.delete { color:var(--nav-delete-color); }
       .nav-method.as-colored-text.head, .nav-method.as-colored-text.patch, .nav-method.as-colored-text.options { color:var(--nav-head-color); }
-      
+
       .nav-method.as-colored-block {
         padding: 1px 4px;
         min-width: 30px;
@@ -369,8 +370,8 @@ export default class RapiDoc extends LitElement {
       .nav-method.as-colored-block.put { background-color: var(--orange); }
       .nav-method.as-colored-block.post { background-color: var(--green); }
       .nav-method.as-colored-block.delete { background-color: var(--red); }
-      .nav-method.as-colored-block.head, .nav-method.as-colored-block.patch , .nav-method.as-colored-block.options { 
-        background-color: var(--yellow); 
+      .nav-method.as-colored-block.head, .nav-method.as-colored-block.patch , .nav-method.as-colored-block.options {
+        background-color: var(--yellow);
       }
 
       @media only screen and (min-width: 768px) {
@@ -384,14 +385,14 @@ export default class RapiDoc extends LitElement {
         .only-large-screen-flex{
           display:flex;
         }
-        .section-gap { 
-          padding: 0 0 0 24px; 
+        .section-gap {
+          padding: 0 0 0 24px;
         }
         .section-gap--focused-mode {
-          padding: 24px 8px; 
+          padding: 24px 8px;
         }
-        .section-gap--read-mode { 
-          padding: 24px 8px; 
+        .section-gap--read-mode {
+          padding: 24px 8px;
         }
         .endpoint-body {
           position: relative;
@@ -404,11 +405,11 @@ export default class RapiDoc extends LitElement {
           width: ${unsafeCSS(this.fontSize === 'default' ? '300px' : this.fontSize === 'large' ? '315px' : '330px')};
           display:flex;
         }
-        .section-gap--focused-mode { 
-          padding: 12px 80px 12px 80px; 
+        .section-gap--focused-mode {
+          padding: 12px 80px 12px 80px;
         }
-        .section-gap--read-mode { 
-          padding: 24px 80px 12px 80px; 
+        .section-gap--read-mode {
+          padding: 24px 80px 12px 80px;
         }
       }`,
       CustomStyles,
@@ -644,21 +645,30 @@ export default class RapiDoc extends LitElement {
     this.setAttribute('spec-url', this.shadowRoot.getElementById('spec-url').value);
   }
 
-  onSpecFileChange(e) {
-    this.setAttribute('spec-file', this.shadowRoot.getElementById('spec-file').value);
-    const specFile = e.target.files[0];
+  onSpecFileChange() {
+    console.log('ON SPEC FILE CHANGE'); // eslint-disable-line no-console
+    // this.setAttribute('spec-file', this.shadowRoot.getElementById('spec-file').value);
+    const specFile = localStorage.getItem('openapi3');
+    const blob = new Blob([specFile], {
+      type: 'application/json',
+    });
+    console.log(blob); // eslint-disable-line no-console
     const reader = new FileReader();
     reader.onload = () => {
+      console.log('Reader LOaded'); // eslint-disable-line no-console
+      console.log(reader.result); // eslint-disable-line no-console
       try {
         const specObj = JSON.parse(reader.result);
+        console.log(specObj); // eslint-disable-line no-console
         this.loadSpec(specObj);
-        this.shadowRoot.getElementById('spec-url').value = '';
+        console.log('After load spec'); // eslint-disable-line no-console
+        // this.shadowRoot.getElementById('spec-url').value = '';
       } catch (err) {
         console.error('RapiDoc: Unable to read or parse json'); // eslint-disable-line no-console
       }
     };
     // Read the Text file
-    reader.readAsText(specFile);
+    reader.readAsText(blob);
   }
 
   onFileLoadClick() {
@@ -743,6 +753,7 @@ export default class RapiDoc extends LitElement {
   }
 
   async afterSpecParsedAndValidated(spec) {
+    console.log('Parsed and Validated'); // eslint-disable-line no-console
     this.resolvedSpec = spec;
     this.selectedServer = undefined;
     if (this.defaultApiServerUrl) {
